@@ -5,6 +5,10 @@
 
 // Library Includes
 #include <string>
+#include <vector>
+
+// Local Includes
+class Scene;
 
 class SceneManager
 {
@@ -16,16 +20,19 @@ public:
 
 	// Member Functions
 	void GenerateScene(std::string _SceneName);
-	void RemoveScene(std::string _SceneName);
+	void RemoveCurrentScene();
+	void AddToRegisteredScenes(Scene *_pScene);
 
 	// Getters
 	std::string GetCurrentSceneName() const;
 
 	// Setters
-	std::string SetCurrentSceneName(std::string _SceneName);
+	void SetCurrentSceneName(std::string _SceneName);
 
 private:
 	// Member Variables
+	std::vector<Scene*> m_RegisteredScenes;
+
 	std::string m_CurrentSceneName;
 };
 

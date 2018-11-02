@@ -15,6 +15,16 @@ Scene::~Scene()
 {
 }
 
+void Scene::RegisterScene(SceneManager *_pSceneManager)
+{
+	_pSceneManager->AddToRegisteredScenes(this);
+}
+
+void Scene::GenerateScene()
+{
+	
+}
+
 std::string Scene::GetSceneName() const
 {
 	return m_SceneName;

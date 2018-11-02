@@ -13,6 +13,9 @@ public:
 	MainMenuScene(std::string);
 	// Deconstructor
 	~MainMenuScene();
+
+	// Member functions
+	virtual void GenerateScene() override;
 };
 
 #endif // _MAINMENUSCENE_H__

@@ -6,6 +6,9 @@
 // Library Includes
 #include <string>
 
+// Local Includes
+#include "sceneManager.h"
+
 class Scene
 {
 public:
@@ -15,6 +18,10 @@ public:
 	~Scene();
 
 	// Member Functions
+	virtual void GenerateScene();
+	void RegisterScene(SceneManager *_pSceneManager);
+
+	// Getters
 	std::string GetSceneName() const;
 
 protected:
