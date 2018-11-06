@@ -16,13 +16,14 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::GenerateScene(std::string _SceneName)
+void SceneManager::PresentScene(std::string _SceneName)
 {
 	for (int i = 0; i < m_RegisteredScenes.size(); i++)
 	{
 		if (m_RegisteredScenes[i]->GetSceneName() == _SceneName)
 		{
-			m_RegisteredScenes[i]->GenerateScene();
+			m_RegisteredScenes[i]->InitializeScene();
+			m_RegisteredScenes[i]->HandleUserInput();
 		}
 	}
 }
@@ -32,7 +33,7 @@ void SceneManager::RemoveCurrentScene()
 	system("CLS");
 }
 
-void SceneManager::AddToRegisteredScenes(Scene *_pScene)
+void SceneManager::RegisterScene(Scene *_pScene)
 {
 	m_RegisteredScenes.push_back(_pScene);
 }

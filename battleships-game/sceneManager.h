@@ -19,9 +19,9 @@ public:
 	~SceneManager();
 
 	// Member Functions
-	void GenerateScene(std::string _SceneName);
+	void PresentScene(std::string _SceneName);
 	void RemoveCurrentScene();
-	void AddToRegisteredScenes(Scene *_pScene);
+	void RegisterScene(Scene *_pScene);
 
 	// Getters
 	std::string GetCurrentSceneName() const;

@@ -3,24 +3,30 @@
 #include <string>
 
 // Local Includes
+#include "game.h"
 #include "sceneManager.h"
 #include "mainMenuScene.h"
-#include "game.h"
-
-using namespace std;
+#include "newGameScene.h"
 
 int main()
 {	
 	Game _Game = Game::GetInstance();
-	MainMenuScene* mainMenuScene = new MainMenuScene("MainMenuScene");
 
-	mainMenuScene->RegisterScene(&_Game.GetSceneManager());
-	_Game.GetSceneManager().GenerateScene("MainMenuScene");
+	// Initialize Scenes
+	MainMenuScene* mainMenuScene = new MainMenuScene("MainMenuScene");
+	NewGameScene* newGameScene = new NewGameScene("NewGameScene");
+
+	// Register Scenes
+	_Game.GetSceneManager().RegisterScene(mainMenuScene);
+	_Game.GetSceneManager().RegisterScene(newGameScene);
+
+	_Game.GetSceneManager().PresentScene("MainMenuScene");
 
 	int iTemp;
-	cin >> iTemp;
+	std::cin >> iTemp;
 
 	delete mainMenuScene;
 
 	return 0;
 }
+

@@ -11,8 +11,8 @@ public:
 
 	// Member functions
 	static Game& GetInstance();
-
 	SceneManager& GetSceneManager();
+	void ExitGame();
 
 private:
 	// Constructor

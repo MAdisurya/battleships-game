@@ -1,23 +1,23 @@
 #pragma once
 
-#ifndef _MAINMENUSCENE_H__
-#define _MAINMENUSCENE_H__
+#ifndef _NEWGAMESCENE_H__
+#define _NEWGAMESCENE_H__
 
 // Local Includes
 #include "scene.h"
 
-class MainMenuScene : public Scene
+class NewGameScene : public Scene
 {
 public:
 	// Constructor
-	MainMenuScene(std::string);
+	NewGameScene(std::string);
 	// Deconstructor
-	~MainMenuScene();
+	~NewGameScene();
 
 	// Member functions
 	virtual void InitializeScene() override;
 	virtual void HandleUserInput() override;
 };
 
-#endif // _MAINMENUSCENE_H__
+#endif // _NEWGAMESCENE_H__
 

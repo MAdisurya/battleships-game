@@ -1,5 +1,6 @@
 // Library includes
 #include <string>
+#include <iostream>
 
 // Local includes
 #include "scene.h"
@@ -15,14 +16,38 @@ Scene::~Scene()
 {
 }
 
-void Scene::RegisterScene(SceneManager *_pSceneManager)
+void Scene::InitializeScene()
 {
-	_pSceneManager->AddToRegisteredScenes(this);
 }
 
-void Scene::GenerateScene()
+void Scene::HandleUserInput()
 {
-	
+	// Get the user input
+	std::cin >> m_UserNumberInput;
+
+	// Check if input is valid
+	if (!CheckUserNumberInput(m_UserNumberInput) || !std::cin)
+	{
+		std::cout << "Please enter a valid input" << std::endl;
+		std::cin.clear();
+		std::cin.ignore(INT_MAX, '\n');
+		HandleUserInput();
+	}
+}
+
+bool Scene::CheckUserNumberInput(int _Input)
+{
+	if (_Input < 1)
+	{
+		return false;
+	}
+	 
+	if (_Input > m_MaxInputOptions)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 std::string Scene::GetSceneName() const

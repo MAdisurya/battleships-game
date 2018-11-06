@@ -12,6 +12,7 @@ Game::~Game()
 
 Game& Game::GetInstance()
 {
+	// if s_pGame is null, create a new instance of Game
 	if (s_pGame == nullptr)
 	{
 		s_pGame = new Game();
@@ -23,4 +24,9 @@ Game& Game::GetInstance()
 SceneManager& Game::GetSceneManager()
 {
 	return *pSceneManager;
+}
+
+void Game::ExitGame()
+{
+	exit(0);
 }
