@@ -3,6 +3,7 @@
 
 // Local Includes
 #include "newGameScene.h"
+#include "board.h"
 
 NewGameScene::NewGameScene(std::string _SceneName) :
 	Scene(_SceneName)
@@ -18,9 +19,12 @@ void NewGameScene::InitializeScene()
 	// Inherit base InitializeScene method from parent Scene class
 	Scene::InitializeScene();
 
-	std::cout << "New Game." << std::endl;
+	Board* board = new Board();
 
+	std::cout << "New Game." << std::endl;
 	std::cout << std::endl;
+
+	board->PresentBoard();
 }
 
 void NewGameScene::HandleUserInput()

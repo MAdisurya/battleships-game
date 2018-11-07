@@ -25,7 +25,9 @@ int main()
 	int iTemp;
 	std::cin >> iTemp;
 
+	// Deconstruct Scenes
 	delete mainMenuScene;
+	delete newGameScene;
 
 	return 0;
 }

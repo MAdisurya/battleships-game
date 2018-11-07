@@ -115,14 +115,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="board.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="location.h" />
     <ClInclude Include="mainMenuScene.h" />
     <ClInclude Include="newGameScene.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="board.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="location.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainMenuScene.cpp" />
     <ClCompile Include="newGameScene.cpp" />
