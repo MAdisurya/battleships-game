@@ -1,7 +1,7 @@
 #pragma once
 
 // Local Includes
-#include "sceneManager.h";
+#include "sceneManager.h"
 
 class Game
 {

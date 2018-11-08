@@ -1,9 +1,11 @@
 // Library includes
 #include <string>
+#include <conio.h>
 #include <iostream>
 
 // Local includes
 #include "scene.h"
+#include "game.h"
 
 // Constructor
 Scene::Scene(std::string _SceneName)
@@ -35,6 +37,53 @@ void Scene::HandleUserInput()
 	}
 }
 
+void Scene::HandleUserKeyInput()
+{
+
+}
+
+void Scene::GetUserKeyInput()
+{
+	int c = 0;
+	bool usingKeyInput = true;
+
+	while (usingKeyInput)
+	{
+		c = 0;
+
+		switch ((c = _getch()))
+		{
+			case KEY_UP:
+				m_KeyPressed = UP;
+				HandleUserKeyInput();
+				break;
+			case KEY_DOWN:
+				m_KeyPressed = DOWN;
+				HandleUserKeyInput();
+				break;
+			case KEY_LEFT:
+				m_KeyPressed = LEFT;
+				HandleUserKeyInput();
+				break;
+			case KEY_RIGHT:
+				m_KeyPressed = RIGHT;
+				HandleUserKeyInput();
+				break;
+			case KEY_RETURN:
+				m_KeyPressed = RETURN;
+				HandleUserKeyInput();
+				break;
+			case KEY_ESC:
+				Game::GetInstance().GetSceneManager().PresentScene("MainMenuScene");
+				usingKeyInput = false;
+				break;
+			default:
+				m_KeyPressed = NO_KEY;
+				break;
+		}
+	}
+}
+
 bool Scene::CheckUserNumberInput(int _Input)
 {
 	if (_Input < 1)
@@ -53,4 +102,9 @@ bool Scene::CheckUserNumberInput(int _Input)
 std::string Scene::GetSceneName() const
 {
 	return m_SceneName;
+}
+
+KeyPressed Scene::GetKeyPressed() const
+{
+	return m_KeyPressed;
 }

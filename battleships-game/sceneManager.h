@@ -21,6 +21,7 @@ public:
 	// Member Functions
 	void PresentScene(std::string _SceneName);
 	void RemoveCurrentScene();
+	void RefreshCurrentScene();
 	void RegisterScene(Scene *_pScene);
 
 	// Getters

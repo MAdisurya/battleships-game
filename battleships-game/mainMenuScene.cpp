@@ -39,7 +39,6 @@ void MainMenuScene::HandleUserInput()
 	switch (m_UserNumberInput)
 	{
 		case 1:
-			Game::GetInstance().GetSceneManager().RemoveCurrentScene();
 			Game::GetInstance().GetSceneManager().PresentScene("NewGameScene");
 			break;
 		case 2:

@@ -1,10 +1,11 @@
 // Library Includes
 #include <string>
 #include <vector>
+#include <iostream>
 
 // Local Includes
 #include "sceneManager.h"
-#include "scene.h";
+#include "scene.h"
 
 // Constructor
 SceneManager::SceneManager()
@@ -18,10 +19,13 @@ SceneManager::~SceneManager()
 
 void SceneManager::PresentScene(std::string _SceneName)
 {
+	RemoveCurrentScene();
+
 	for (int i = 0; i < m_RegisteredScenes.size(); i++)
 	{
 		if (m_RegisteredScenes[i]->GetSceneName() == _SceneName)
 		{
+			SetCurrentSceneName(_SceneName);
 			m_RegisteredScenes[i]->InitializeScene();
 			m_RegisteredScenes[i]->HandleUserInput();
 		}
@@ -31,6 +35,11 @@ void SceneManager::PresentScene(std::string _SceneName)
 void SceneManager::RemoveCurrentScene()
 {
 	system("CLS");
+}
+
+void SceneManager::RefreshCurrentScene()
+{
+	PresentScene(m_CurrentSceneName);
 }
 
 void SceneManager::RegisterScene(Scene *_pScene)
