@@ -26,6 +26,7 @@ public:
 
 	// Getters
 	std::string GetCurrentSceneName() const;
+	Scene* GetSceneByName(std::string _SceneName) const;
 
 	// Setters
 	void SetCurrentSceneName(std::string _SceneName);

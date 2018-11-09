@@ -52,6 +52,17 @@ std::string SceneManager::GetCurrentSceneName() const
 	return m_CurrentSceneName;
 }
 
+Scene* SceneManager::GetSceneByName(std::string _SceneName) const
+{
+	for (int i = 0; i < m_RegisteredScenes.size(); i++)
+	{
+		if (m_RegisteredScenes[i]->GetSceneName() == _SceneName)
+		{
+			return m_RegisteredScenes[i];
+		}
+	}
+}
+
 void SceneManager::SetCurrentSceneName(std::string _SceneName)
 {
 	m_CurrentSceneName = _SceneName;

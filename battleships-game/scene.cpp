@@ -69,6 +69,10 @@ void Scene::GetUserKeyInput()
 				m_KeyPressed = RIGHT;
 				HandleUserKeyInput();
 				break;
+			case KEY_SPACE:
+				m_KeyPressed = SPACE;
+				HandleUserKeyInput();
+				break;
 			case KEY_RETURN:
 				m_KeyPressed = RETURN;
 				HandleUserKeyInput();
@@ -84,6 +88,13 @@ void Scene::GetUserKeyInput()
 	}
 }
 
+void Scene::DisplayMessage(std::string _Message)
+{
+	m_DisplayMessage = _Message;
+
+	Game::GetInstance().GetSceneManager().RefreshCurrentScene();
+}
+
 bool Scene::CheckUserNumberInput(int _Input)
 {
 	if (_Input < 1)
@@ -97,6 +108,11 @@ bool Scene::CheckUserNumberInput(int _Input)
 	}
 
 	return true;
+}
+
+void Scene::SetPlayerBoard(Board *p_PlayerBoard)
+{
+	m_pPlayerBoard = p_PlayerBoard;
 }
 
 std::string Scene::GetSceneName() const

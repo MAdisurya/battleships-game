@@ -58,6 +58,14 @@ void Board::PresentBoard()
 	}
 }
 
+void Board::MakeInvisible()
+{
+	for (int i = 0; i < m_RegisteredLocations.size(); i++)
+	{
+		m_RegisteredLocations[i]->SetSymbol("+");
+	}
+}
+
 void Board::SetSelectedLocation(int _X, int _Y)
 {
 	if (m_AllowedKeyInputs)
@@ -84,24 +92,130 @@ void Board::SetSelectedLocation(int _X, int _Y)
 	}
 }
 
-void Board::PlaceShip(Ship *p_Ship, Location *p_Location)
+void Board::ResetSelectedLocation()
 {
-	p_Ship->SetPlaced(true);
+	m_SelectedLocationX = 0;
+	m_SelectedLocationY = 0;
+}
 
+void Board::PlaceShip(Ship *p_Ship)
+{
+	if (CanPlace(p_Ship))
+	{
+		for (int i = 0; i < p_Ship->GetShipSize(); i++)
+		{
+			Location *pNewLocation = nullptr;
+
+			if (m_CurrentRotation == VERTICAL)
+			{
+				// Vertical
+				pNewLocation = m_RegisteredLocations[m_SelectedLocationX + (m_SelectedLocationY + (i * m_Height))];
+			}
+			else
+			{
+				// Horizontal
+				pNewLocation = m_RegisteredLocations[(m_SelectedLocationX + i) + m_SelectedLocationY];
+			}
+
+			p_Ship->SetPlaced(true);
+			p_Ship->GetShipLocations().push_back(pNewLocation);
+			pNewLocation->SetSymbol(p_Ship->GetShipSymbol());
+			pNewLocation->SetOccupied(true);
+		}
+
+		Game::GetInstance().GetSceneManager().RefreshCurrentScene();
+	}
+}
+
+void Board::RotatePlacement()
+{
+	if (m_CurrentRotation == VERTICAL)
+	{
+		m_CurrentRotation = HORIZONTAL;
+	}
+	else
+	{
+		m_CurrentRotation = VERTICAL;
+	}
+}
+
+void Board::SetRandomRotation(int _Number)
+{
+	if (_Number == 0)
+	{
+		m_CurrentRotation = VERTICAL;
+	}
+	else
+	{
+		m_CurrentRotation = HORIZONTAL;
+	}
+}
+
+void Board::Fire(Location *p_Location)
+{
+	if (p_Location->IsOccupied())
+	{
+		p_Location->SetSymbol("X");
+		p_Location->SetOccupied(true);
+	}
+	else
+	{
+		p_Location->SetSymbol("*");
+		p_Location->SetOccupied(true);
+	}
+	
+	Game::GetInstance().GetSceneManager().RefreshCurrentScene();
+}
+
+bool Board::CanPlace(Ship *p_Ship)
+{
 	for (int i = 0; i < p_Ship->GetShipSize(); i++)
 	{
-		// Vertical
-		Location *pNewLocation = m_RegisteredLocations[m_SelectedLocationX + (m_SelectedLocationY + (i * 10))];
+		Location *pNewLocation = nullptr;
 
-		// Horizontal
-		// Location *pNewLocation = m_RegisteredLocations[(m_SelectedLocationX + i) + m_SelectedLocationY];
+		if (m_CurrentRotation == VERTICAL)
+		{
+			// Vertical
+			pNewLocation = m_RegisteredLocations[m_SelectedLocationX + (m_SelectedLocationY + (i * m_Height))];
+		}
+		else
+		{
+			// Horizontal
+			pNewLocation = m_RegisteredLocations[(m_SelectedLocationX + i) + m_SelectedLocationY];
+		}
 
-		p_Ship->GetShipLocations().push_back(pNewLocation);
-		pNewLocation->SetSymbol(p_Ship->GetShipSymbol());
-		pNewLocation->SetOccupied(true);
+		if (pNewLocation->IsOccupied())
+		{
+			return false;
+		}
+
+		if (m_CurrentRotation == HORIZONTAL)
+		{
+			if (pNewLocation->GetX() == (m_Height - p_Ship->GetShipSize()))
+			{
+				return true;
+			}
+
+			if(pNewLocation->GetX() >= m_Height - 1)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if (pNewLocation->GetY() == (m_Width - p_Ship->GetShipSize()))
+			{
+				return true;
+			}
+
+			if (pNewLocation->GetY() >= m_Width - 1)
+			{
+				return false;
+			}
+		}
 	}
 
-	Game::GetInstance().GetSceneManager().RefreshCurrentScene();
+	return true;
 }
 
 std::vector<Location*> Board::GetRegisteredLocations() const
@@ -114,6 +228,11 @@ std::vector<Ship*> Board::GetShips() const
 	return m_Ships;
 }
 
+Rotation Board::GetCurrentRotation() const
+{
+	return m_CurrentRotation;
+}
+
 int Board::GetSelectedLocationX() const
 {
 	return m_SelectedLocationX;
@@ -122,4 +241,14 @@ int Board::GetSelectedLocationX() const
 int Board::GetSelectedLocationY() const
 {
 	return m_SelectedLocationY;
+}
+
+void Board::SetSelectedLocationX(int _LocationX)
+{
+	m_SelectedLocationX = _LocationX;
+}
+
+void Board::SetSelectedLocationY(int _LocationY)
+{
+	m_SelectedLocationY = _LocationY;
 }

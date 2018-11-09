@@ -7,6 +7,8 @@
 #include "ship.h"
 class Location;
 
+enum Rotation { VERTICAL, HORIZONTAL };
+
 class Board
 {
 public:
@@ -19,19 +21,31 @@ public:
 	void AllowKeyInputs();
 	void RegisterLocation(Location *p_Location);
 	void PresentBoard();
+	void MakeInvisible();
 	void SetSelectedLocation(int _X, int _Y);
-	void PlaceShip(Ship *p_Ship, Location *p_Location);
+	void ResetSelectedLocation();
+	void PlaceShip(Ship *p_Ship);
+	void RotatePlacement();
+	void SetRandomRotation(int _Number);
+	void Fire(Location *p_Location);
+	bool CanPlace(Ship *p_Ship);
 
 	// Getter methods
 	std::vector<Location*> GetRegisteredLocations() const;
 	std::vector<Ship*> GetShips() const;
+	Rotation GetCurrentRotation() const;
 	int GetSelectedLocationX() const;
 	int GetSelectedLocationY() const;
+
+	// Setter methods
+	void SetSelectedLocationX(int _LocationX);
+	void SetSelectedLocationY(int _LocationY);
 
 private:
 	// Member variables
 	std::vector<Location*> m_RegisteredLocations;
 	std::vector<Ship*> m_Ships;
+	Rotation m_CurrentRotation = VERTICAL;
 	bool m_AllowedKeyInputs = false;
 
 	int m_SelectedLocationX = 0;
