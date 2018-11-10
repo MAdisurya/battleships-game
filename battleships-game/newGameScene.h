@@ -17,8 +17,10 @@ public:
 
 	// Member functions
 	virtual void InitializeScene() override;
+	virtual void DisplayScene() override;
 	virtual void HandleUserInput() override;
 	virtual void HandleUserKeyInput() override;
+	virtual void ResetScene() override;
 
 private:
 	// Member variables

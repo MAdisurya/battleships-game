@@ -1,5 +1,10 @@
+// Library Includes
+#include <iostream>
+
 // Local Includes
 #include "enemy.h"
+#include "game.h"
+#include "scene.h"
 
 Enemy::Enemy()
 {
@@ -19,14 +24,14 @@ void Enemy::PlaceShips()
 	for (int i = 0; i < m_EnemyBoard->GetShips().size(); i++)
 	{
 		pShip = m_EnemyBoard->GetShips()[i];
-		
+		randomRotation = rand() % 2;
+		m_EnemyBoard->SetRandomRotation(randomRotation);
+
 		while (!m_EnemyBoard->CanPlace(pShip))
 		{
 			randomNumberX = rand() % 10;
 			randomNumberY = rand() % 10;
-			randomRotation = rand() % 2;
 
-			m_EnemyBoard->SetRandomRotation(randomRotation);
 			m_EnemyBoard->SetSelectedLocationX(randomNumberX);
 			m_EnemyBoard->SetSelectedLocationY(randomNumberY);
 		}
@@ -40,15 +45,32 @@ void Enemy::PlaceShips()
 void Enemy::EnemyTurn(Board *p_PlayerBoard)
 {
 	int randomHit = rand() % 10;
-	int randomShipX = rand() % 10;
-	int randomShipY = rand() % 10;
+	int randomShip = rand() % p_PlayerBoard->GetShips().size();
+	int randomX = rand() % 10;
+	int randomY = rand() % 10;
+
+	if (p_PlayerBoard->GetShips().size() == 1)
+	{
+		randomShip = 0;
+	}
 
 	if (randomHit <= 3)
 	{
-		for (int i = 0; i < p_PlayerBoard->GetShips().size(); i++)
-		{
-			/*if (p_PlayerBoard->GetShips()[i]->GetShipLocations())*/
+		Ship* pPlayerShip = p_PlayerBoard->GetShips()[randomShip];
+
+		for (int i = 0; i < pPlayerShip->GetShipLocations().size(); i++)
+		{	
+			p_PlayerBoard->Fire(pPlayerShip->GetShipLocations()[i]);
 		}
+	}
+	else
+	{
+		while (p_PlayerBoard->GetRegisteredLocations()[randomX + (randomY * 10)]->IsOccupied())
+		{
+			randomX = rand() % 10;
+			randomY = rand() % 10;
+		}
+		p_PlayerBoard->Fire(p_PlayerBoard->GetRegisteredLocations()[randomX + (randomY * 10)]);
 	}
 }
 

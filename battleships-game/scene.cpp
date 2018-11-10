@@ -22,6 +22,10 @@ void Scene::InitializeScene()
 {
 }
 
+void Scene::DisplayScene()
+{
+}
+
 void Scene::HandleUserInput()
 {
 	// Get the user input
@@ -39,15 +43,21 @@ void Scene::HandleUserInput()
 
 void Scene::HandleUserKeyInput()
 {
+}
 
+void Scene::ResetScene()
+{
+	if (m_pPlayerBoard != nullptr)
+	{
+		m_pPlayerBoard->ResetBoard();
+	}
 }
 
 void Scene::GetUserKeyInput()
 {
 	int c = 0;
-	bool usingKeyInput = true;
 
-	while (usingKeyInput)
+	while (m_UsingKeyInput)
 	{
 		c = 0;
 
@@ -78,8 +88,9 @@ void Scene::GetUserKeyInput()
 				HandleUserKeyInput();
 				break;
 			case KEY_ESC:
+				Game::GetInstance().GetSceneManager().ResetAllScenes();
 				Game::GetInstance().GetSceneManager().PresentScene("MainMenuScene");
-				usingKeyInput = false;
+				m_UsingKeyInput = false;
 				break;
 			default:
 				m_KeyPressed = NO_KEY;
@@ -113,6 +124,21 @@ bool Scene::CheckUserNumberInput(int _Input)
 void Scene::SetPlayerBoard(Board *p_PlayerBoard)
 {
 	m_pPlayerBoard = p_PlayerBoard;
+}
+
+void Scene::SetUsingKeyInput(bool _Using)
+{
+	m_UsingKeyInput = _Using;
+}
+
+Board& Scene::GetPlayerBoard()
+{
+	return *m_pPlayerBoard;
+}
+
+bool Scene::UsingKeyInput() const
+{
+	return m_UsingKeyInput;
 }
 
 std::string Scene::GetSceneName() const

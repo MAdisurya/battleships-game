@@ -16,6 +16,7 @@ public:
 
 	// Member functions
 	virtual void InitializeScene() override;
+	virtual void DisplayScene() override;
 	virtual void HandleUserInput() override;
 };
 

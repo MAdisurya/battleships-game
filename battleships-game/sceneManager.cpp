@@ -6,6 +6,8 @@
 // Local Includes
 #include "sceneManager.h"
 #include "scene.h"
+#include "newGameScene.h"
+#include "gameScene.h"
 
 // Constructor
 SceneManager::SceneManager()
@@ -27,7 +29,6 @@ void SceneManager::PresentScene(std::string _SceneName)
 		{
 			SetCurrentSceneName(_SceneName);
 			m_RegisteredScenes[i]->InitializeScene();
-			m_RegisteredScenes[i]->HandleUserInput();
 		}
 	}
 }
@@ -39,12 +40,28 @@ void SceneManager::RemoveCurrentScene()
 
 void SceneManager::RefreshCurrentScene()
 {
-	PresentScene(m_CurrentSceneName);
+	RemoveCurrentScene();
+
+	for (int i = 0; i < m_RegisteredScenes.size(); i++)
+	{
+		if (m_RegisteredScenes[i]->GetSceneName() == m_CurrentSceneName)
+		{
+			m_RegisteredScenes[i]->DisplayScene();
+		}
+	}
 }
 
 void SceneManager::RegisterScene(Scene *_pScene)
 {
 	m_RegisteredScenes.push_back(_pScene);
+}
+
+void SceneManager::ResetAllScenes()
+{
+	for (int i = 0; i < m_RegisteredScenes.size(); i++)
+	{
+		m_RegisteredScenes[i]->ResetScene();
+	}
 }
 
 std::string SceneManager::GetCurrentSceneName() const

@@ -20,6 +20,15 @@ void MainMenuScene::InitializeScene()
 	// Inherit base InitializeScene method from parent Scene class
 	Scene::InitializeScene();
 
+	DisplayScene();
+
+	m_MaxInputOptions = 3;
+
+	HandleUserInput();
+}
+
+void MainMenuScene::DisplayScene()
+{
 	std::cout << "Battleships." << std::endl;
 
 	std::cout << std::endl;
@@ -27,8 +36,6 @@ void MainMenuScene::InitializeScene()
 	std::cout << "1) New Game" << std::endl;
 	std::cout << "2) Exit Game" << std::endl;
 	std::cout << "3) Credits" << std::endl;
-
-	m_MaxInputOptions = 3;
 }
 
 void MainMenuScene::HandleUserInput()

@@ -12,6 +12,29 @@ Ship::~Ship()
 {
 }
 
+void Ship::RegisterShipLocation(Location *p_Location)
+{
+	m_ShipLocations.push_back(p_Location);
+}
+
+void Ship::RemoveShipLocation(Location *p_Location)
+{
+	for (int i = 0; i < m_ShipLocations.size(); i++)
+	{
+		if (m_ShipLocations[i]->GetX() == p_Location->GetX() && m_ShipLocations[i]->GetY() == p_Location->GetY())
+		{
+			m_ShipLocations.erase(m_ShipLocations.begin()+i);
+		}
+	}
+}
+
+void Ship::ResetShip()
+{
+	m_Placed = false;
+	m_Destroyed = false;
+	m_ShipLocations.clear();
+}
+
 std::vector<Location*> Ship::GetShipLocations() const
 {
 	return m_ShipLocations;
@@ -35,6 +58,11 @@ int Ship::GetShipSize() const
 bool Ship::IsPlaced() const
 {
 	return m_Placed;
+}
+
+bool Ship::IsDestroyed() const
+{
+	return m_ShipLocations.size() <= 0;
 }
 
 void Ship::SetPlaced(bool _Placed)

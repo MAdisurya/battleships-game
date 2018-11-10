@@ -14,12 +14,17 @@ public:
 	~GameScene();
 
 	// Member functions
-	void InitializeScene() override;
-	void HandleUserInput() override;
-	void HandleUserKeyInput() override;
+	virtual void InitializeScene() override;
+	virtual void DisplayScene() override;
+	virtual void HandleUserInput() override;
+	virtual void HandleUserKeyInput() override;
+	virtual void ResetScene() override;
+
+	// Getter methods
+	Enemy& GetEnemy();
 
 private:
 	// Member variables
-	Enemy * m_Enemy = new Enemy();
+	Enemy* m_Enemy = new Enemy();
 };
 

@@ -31,18 +31,23 @@ public:
 
 	// Member Functions
 	virtual void InitializeScene();
+	virtual void DisplayScene();
 	virtual void HandleUserInput();
 	virtual void HandleUserKeyInput();
+	virtual void ResetScene();
 	void DisplayMessage(std::string _Message);
+	void GetUserKeyInput();
 	bool CheckUserNumberInput(int _Input);
 
 	// Getters
-	void GetUserKeyInput();
+	Board& GetPlayerBoard();
+	bool UsingKeyInput() const;
 	std::string GetSceneName() const;
 	KeyPressed GetKeyPressed() const;
 
 	// Setters
 	void SetPlayerBoard(Board *p_PlayerBoard);
+	void SetUsingKeyInput(bool _Using);
 
 protected:
 	// Member variables
@@ -52,6 +57,7 @@ protected:
 	KeyPressed m_KeyPressed = NO_KEY;
 	int m_UserNumberInput;
 	int m_MaxInputOptions;
+	bool m_UsingKeyInput = false;
 };
 
 #endif // _SCENE_H__

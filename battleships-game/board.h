@@ -28,6 +28,7 @@ public:
 	void RotatePlacement();
 	void SetRandomRotation(int _Number);
 	void Fire(Location *p_Location);
+	void ResetBoard();
 	bool CanPlace(Ship *p_Ship);
 
 	// Getter methods

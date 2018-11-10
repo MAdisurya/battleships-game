@@ -2,6 +2,7 @@
 
 // Local Includes
 #include "sceneManager.h"
+#include "turnManager.h"
 
 class Game
 {
@@ -12,6 +13,7 @@ public:
 	// Member functions
 	static Game& GetInstance();
 	SceneManager& GetSceneManager();
+	TurnManager& GetTurnManager();
 	void ExitGame();
 
 private:
@@ -22,5 +24,6 @@ private:
 	static Game* s_pGame;
 
 	SceneManager *pSceneManager = new SceneManager();
+	TurnManager *pTurnManager = new TurnManager();
 };
 

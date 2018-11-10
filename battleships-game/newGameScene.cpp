@@ -8,7 +8,6 @@
 NewGameScene::NewGameScene(std::string _SceneName) :
 	Scene(_SceneName)
 {
-	m_DisplayMessage = "Current Rotation: Vertical";
 }
 
 NewGameScene::~NewGameScene()
@@ -20,11 +19,20 @@ void NewGameScene::InitializeScene()
 	// Inherit base InitializeScene method from parent Scene class
 	Scene::InitializeScene();
 
+	m_DisplayMessage = "Current Rotation: Vertical";
+	SetUsingKeyInput(true);
+
+	m_Board->AllowKeyInputs();
+
+	DisplayScene();
+}
+
+void NewGameScene::DisplayScene()
+{
 	std::cout << "Place your ships!" << std::endl;
 	std::cout << std::endl;
 
 	m_Board->PresentBoard();
-	m_Board->AllowKeyInputs();
 
 	std::cout << std::endl;
 	std::cout << m_DisplayMessage << std::endl;
@@ -107,11 +115,22 @@ void NewGameScene::HandleUserKeyInput()
 			}
 			else if (pShip == nullptr)
 			{
+				SetUsingKeyInput(false);
+				m_Board->ResetSelectedLocation();
 				Game::GetInstance().GetSceneManager().GetSceneByName("GameScene")->SetPlayerBoard(m_Board);
 				Game::GetInstance().GetSceneManager().PresentScene("GameScene");
 			}
+
 			break;
 		default:
 			break;
 	}
+}
+
+void NewGameScene::ResetScene()
+{
+	// Inherit function from base parent
+	Scene::ResetScene();
+
+	m_Board->ResetBoard();
 }

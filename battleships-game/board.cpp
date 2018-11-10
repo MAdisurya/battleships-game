@@ -5,6 +5,8 @@
 #include "board.h"
 #include "location.h"
 #include "game.h"
+#include "scene.h"
+#include "gameScene.h"
 
 Board::Board()
 {
@@ -58,6 +60,19 @@ void Board::PresentBoard()
 	}
 }
 
+void Board::ResetBoard()
+{
+	for (int i = 0; i < m_RegisteredLocations.size(); i++)
+	{
+		m_RegisteredLocations[i]->ResetLocation();
+	}
+
+	for (int i = 0; i < m_Ships.size(); i++)
+	{
+		m_Ships[i]->ResetShip();
+	}
+}
+
 void Board::MakeInvisible()
 {
 	for (int i = 0; i < m_RegisteredLocations.size(); i++)
@@ -80,8 +95,8 @@ void Board::SetSelectedLocation(int _X, int _Y)
 			
 			if (!m_RegisteredLocations[m_SelectedLocationX + m_SelectedLocationY]->IsOccupied())
 			{
-				// Set the old selected location back to "+"
-				m_RegisteredLocations[m_SelectedLocationX + m_SelectedLocationY]->SetSymbol("+");
+				// Set the old selected location back to "-"
+				m_RegisteredLocations[m_SelectedLocationX + m_SelectedLocationY]->SetSymbol("-");
 			}
 
 			m_SelectedLocationX = _X;
@@ -94,6 +109,11 @@ void Board::SetSelectedLocation(int _X, int _Y)
 
 void Board::ResetSelectedLocation()
 {
+	if (!m_RegisteredLocations[m_SelectedLocationX + m_SelectedLocationY]->IsOccupied())
+	{
+		m_RegisteredLocations[m_SelectedLocationX + m_SelectedLocationY]->SetSymbol("-");
+	}
+
 	m_SelectedLocationX = 0;
 	m_SelectedLocationY = 0;
 }
@@ -117,10 +137,11 @@ void Board::PlaceShip(Ship *p_Ship)
 				pNewLocation = m_RegisteredLocations[(m_SelectedLocationX + i) + m_SelectedLocationY];
 			}
 
-			p_Ship->SetPlaced(true);
-			p_Ship->GetShipLocations().push_back(pNewLocation);
 			pNewLocation->SetSymbol(p_Ship->GetShipSymbol());
+			pNewLocation->SetShipName(p_Ship->GetShipName());
 			pNewLocation->SetOccupied(true);
+			p_Ship->SetPlaced(true);
+			p_Ship->RegisterShipLocation(pNewLocation);
 		}
 
 		Game::GetInstance().GetSceneManager().RefreshCurrentScene();
@@ -153,18 +174,37 @@ void Board::SetRandomRotation(int _Number)
 
 void Board::Fire(Location *p_Location)
 {
-	if (p_Location->IsOccupied())
+	if (p_Location->GetSymbol() != "X" && p_Location->GetSymbol() != "*")
 	{
-		p_Location->SetSymbol("X");
-		p_Location->SetOccupied(true);
+		if (p_Location->IsOccupied())
+		{
+			p_Location->SetSymbol("X");
+			p_Location->SetOccupied(true);
+			Game::GetInstance().GetSceneManager().GetSceneByName("GameScene")->DisplayMessage("Hit: " + p_Location->GetShipName());
+			p_Location->SetShipName("");
+
+			for (int i = 0; i < m_Ships.size(); i++)
+			{
+				if (m_Ships[i]->GetShipName() == p_Location->GetShipName())
+				{
+					m_Ships[i]->RemoveShipLocation(p_Location);
+				}
+
+				if (m_Ships[i]->IsDestroyed())
+				{
+					m_Ships.erase(m_Ships.begin() + i);
+				}
+			}
+		}
+		else
+		{
+			p_Location->SetSymbol("*");
+			p_Location->SetOccupied(true);
+			Game::GetInstance().GetSceneManager().GetSceneByName("GameScene")->DisplayMessage("Missed!");
+		}
+
+		Game::GetInstance().GetTurnManager().NextTurn();
 	}
-	else
-	{
-		p_Location->SetSymbol("*");
-		p_Location->SetOccupied(true);
-	}
-	
-	Game::GetInstance().GetSceneManager().RefreshCurrentScene();
 }
 
 bool Board::CanPlace(Ship *p_Ship)

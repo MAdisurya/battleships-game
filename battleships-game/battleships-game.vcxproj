@@ -125,6 +125,7 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="ship.h" />
+    <ClInclude Include="turnManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
@@ -138,6 +139,7 @@
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="ship.cpp" />
+    <ClCompile Include="turnManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

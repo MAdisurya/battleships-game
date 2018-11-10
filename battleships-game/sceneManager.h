@@ -23,6 +23,7 @@ public:
 	void RemoveCurrentScene();
 	void RefreshCurrentScene();
 	void RegisterScene(Scene *_pScene);
+	void ResetAllScenes();
 
 	// Getters
 	std::string GetCurrentSceneName() const;

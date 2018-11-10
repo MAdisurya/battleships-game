@@ -26,6 +26,11 @@ SceneManager& Game::GetSceneManager()
 	return *pSceneManager;
 }
 
+TurnManager& Game::GetTurnManager()
+{
+	return *pTurnManager;
+}
+
 void Game::ExitGame()
 {
 	exit(0);
