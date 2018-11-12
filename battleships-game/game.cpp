@@ -1,13 +1,23 @@
+#pragma once
+
+// Local Includes
 #include "game.h"
 
 Game* Game::s_pGame = nullptr;
 
+// TF: Constructor
 Game::Game()
 {
 }
 
+// TF: Destructor
 Game::~Game()
 {
+}
+
+bool Game::GetDebugMode() const
+{
+	return m_DebugMode;
 }
 
 Game& Game::GetInstance()
@@ -31,7 +41,17 @@ TurnManager& Game::GetTurnManager()
 	return *pTurnManager;
 }
 
+void Game::ToggleDebugMode()
+{
+	m_DebugMode = !m_DebugMode;
+}
+
 void Game::ExitGame()
 {
 	exit(0);
+}
+
+void Game::SetDebugMode(bool _DebugMode)
+{
+	m_DebugMode = _DebugMode;
 }

@@ -10,6 +10,7 @@
 #include "mainMenuScene.h"
 #include "newGameScene.h"
 #include "gameScene.h";
+#include "gameOverScene.h";
 
 int main()
 {	
@@ -21,20 +22,21 @@ int main()
 	MainMenuScene* mainMenuScene = new MainMenuScene("MainMenuScene");
 	NewGameScene* newGameScene = new NewGameScene("NewGameScene");
 	GameScene* gameScene = new GameScene("GameScene");
+	GameOverScene* gameOverScene = new GameOverScene("GameOverScene");
 
 	// Register Scenes
 	_Game.GetSceneManager().RegisterScene(mainMenuScene);
 	_Game.GetSceneManager().RegisterScene(newGameScene);
 	_Game.GetSceneManager().RegisterScene(gameScene);
+	_Game.GetSceneManager().RegisterScene(gameOverScene);
 
 	_Game.GetSceneManager().PresentScene("MainMenuScene");
 
-	int iTemp;
-	std::cin >> iTemp;
-
-	// Deconstruct Scenes
+	// Delete Scenes
 	delete mainMenuScene;
 	delete newGameScene;
+	delete gameScene;
+	delete gameOverScene;
 
 	return 0;
 }

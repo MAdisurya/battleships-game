@@ -6,6 +6,7 @@
 #include "mainMenuScene.h"
 #include "game.h"
 
+// TF: Copy Constructor
 MainMenuScene::MainMenuScene(std::string _SceneName)
 	: Scene(_SceneName)
 {
@@ -20,6 +21,7 @@ void MainMenuScene::InitializeScene()
 	// Inherit base InitializeScene method from parent Scene class
 	Scene::InitializeScene();
 
+	m_DisplayMessage = "Debug Mode OFF";
 	DisplayScene();
 
 	m_MaxInputOptions = 3;
@@ -35,7 +37,15 @@ void MainMenuScene::DisplayScene()
 
 	std::cout << "1) New Game" << std::endl;
 	std::cout << "2) Exit Game" << std::endl;
-	std::cout << "3) Credits" << std::endl;
+	std::cout << "3) Toggle Debug Mode" << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << m_DisplayMessage << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << "Please enter a number from 1-3" << std::endl;
 }
 
 void MainMenuScene::HandleUserInput()
@@ -52,7 +62,19 @@ void MainMenuScene::HandleUserInput()
 			Game::GetInstance().ExitGame();
 			break;
 		case 3:
-			std::cout << "Credits!" << std::endl;
+			Game::GetInstance().ToggleDebugMode();
+
+			if (Game::GetInstance().GetDebugMode())
+			{
+				DisplayMessage("Debug Mode ON");
+			}
+			else
+			{
+				DisplayMessage("Debug Mode OFF");
+			}
+
+			Game::GetInstance().GetSceneManager().RefreshCurrentScene();
+			HandleUserInput();
 			break;
 		default:
 			break;

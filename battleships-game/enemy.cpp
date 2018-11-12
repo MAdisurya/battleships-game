@@ -44,17 +44,22 @@ void Enemy::PlaceShips()
 
 void Enemy::EnemyTurn(Board *p_PlayerBoard)
 {
+	// TF: Pseudo random numbers
 	int randomHit = rand() % 10;
-	int randomShip = rand() % p_PlayerBoard->GetShips().size();
+	int randomShip;
 	int randomX = rand() % 10;
 	int randomY = rand() % 10;
 
-	if (p_PlayerBoard->GetShips().size() == 1)
+	if (p_PlayerBoard->GetShips().size() <= 1)
 	{
 		randomShip = 0;
 	}
+	else
+	{
+		randomShip = rand() % p_PlayerBoard->GetShips().size();
+	}
 
-	if (randomHit <= 3)
+	if (randomHit <= 3 && p_PlayerBoard->GetShips().size() > 0)
 	{
 		Ship* pPlayerShip = p_PlayerBoard->GetShips()[randomShip];
 

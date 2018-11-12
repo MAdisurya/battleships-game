@@ -4,6 +4,7 @@
 #include <iostream>
 
 // Local Includes
+#include "game.h"
 #include "sceneManager.h"
 #include "scene.h"
 #include "newGameScene.h"
@@ -62,6 +63,8 @@ void SceneManager::ResetAllScenes()
 	{
 		m_RegisteredScenes[i]->ResetScene();
 	}
+
+	Game::GetInstance().GetTurnManager().ResetTurns();
 }
 
 std::string SceneManager::GetCurrentSceneName() const

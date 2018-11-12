@@ -12,6 +12,7 @@ public:
 
 	// Member functions
 	void NextTurn();
+	void ResetTurns();
 
 	// Getter methods
 	TurnOrders GetCurrentTurnOrder() const;

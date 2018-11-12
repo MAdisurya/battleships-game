@@ -21,7 +21,7 @@ public:
 	void AllowKeyInputs();
 	void RegisterLocation(Location *p_Location);
 	void PresentBoard();
-	void MakeInvisible();
+	void Hide();
 	void SetSelectedLocation(int _X, int _Y);
 	void ResetSelectedLocation();
 	void PlaceShip(Ship *p_Ship);
@@ -35,6 +35,7 @@ public:
 	std::vector<Location*> GetRegisteredLocations() const;
 	std::vector<Ship*> GetShips() const;
 	Rotation GetCurrentRotation() const;
+	// TF: Variable Types
 	int GetSelectedLocationX() const;
 	int GetSelectedLocationY() const;
 
@@ -44,6 +45,7 @@ public:
 
 private:
 	// Member variables
+	// TF: Arrays
 	std::vector<Location*> m_RegisteredLocations;
 	std::vector<Ship*> m_Ships;
 	Rotation m_CurrentRotation = VERTICAL;

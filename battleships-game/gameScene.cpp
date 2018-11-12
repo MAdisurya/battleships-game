@@ -21,6 +21,11 @@ void GameScene::InitializeScene()
 	Scene::InitializeScene();
 
 	m_Enemy->PlaceShips();
+	if (Game::GetInstance().GetDebugMode())
+	{
+		m_Enemy->GetEnemyBoard()->Hide();
+	}
+
 	m_Enemy->GetEnemyBoard()->AllowKeyInputs();
 	m_DisplayMessage = "Players Turn.";
 	SetUsingKeyInput(true);

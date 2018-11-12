@@ -47,16 +47,26 @@ void Board::RegisterLocation(Location *p_Location)
 
 void Board::PresentBoard()
 {
+	// TF: Iteration Structure
 	for (int i = 1; i < m_RegisteredLocations.size() + 1; i++)
 	{
 		std::cout << " ";
 		std::cout << m_RegisteredLocations[i-1]->GetSymbol();
 		std::cout << " ";
 
+		// TF: Conditional Statement
 		if (i % 10 == 0)
 		{
 			std::cout << std::endl;
 		}
+	}
+}
+
+void Board::Hide()
+{
+	for (int i = 0; i < m_RegisteredLocations.size(); i++)
+	{
+		m_RegisteredLocations[i]->SetSymbol("-");
 	}
 }
 
@@ -69,16 +79,24 @@ void Board::ResetBoard()
 
 	for (int i = 0; i < m_Ships.size(); i++)
 	{
-		m_Ships[i]->ResetShip();
+		delete m_Ships[i];
 	}
-}
 
-void Board::MakeInvisible()
-{
-	for (int i = 0; i < m_RegisteredLocations.size(); i++)
-	{
-		m_RegisteredLocations[i]->SetSymbol("+");
-	}
+	m_Ships.clear();
+
+	// Patrol Boat
+	m_Ships.push_back(new Ship("Patrol Boat", "P", 2));
+	// Submarine
+	m_Ships.push_back(new Ship("Submarine", "S", 3));
+	// Destroyer
+	m_Ships.push_back(new Ship("Destroyer", "D", 3));
+	// Battleship
+	m_Ships.push_back(new Ship("Battleship", "B", 4));
+	// Aircraft Carrier
+	m_Ships.push_back(new Ship("Aircraft Carrier", "A", 5));
+
+	m_SelectedLocationX = 0;
+	m_SelectedLocationY = 0;
 }
 
 void Board::SetSelectedLocation(int _X, int _Y)
@@ -180,8 +198,6 @@ void Board::Fire(Location *p_Location)
 		{
 			p_Location->SetSymbol("X");
 			p_Location->SetOccupied(true);
-			Game::GetInstance().GetSceneManager().GetSceneByName("GameScene")->DisplayMessage("Hit: " + p_Location->GetShipName());
-			p_Location->SetShipName("");
 
 			for (int i = 0; i < m_Ships.size(); i++)
 			{
@@ -192,17 +208,33 @@ void Board::Fire(Location *p_Location)
 
 				if (m_Ships[i]->IsDestroyed())
 				{
+					if (Game::GetInstance().GetTurnManager().GetCurrentTurnOrder() == ENEMY_TURN)
+					{
+						Game::GetInstance().GetSceneManager().GetSceneByName("GameScene")->DisplayMessage("Enemy Destroyed: " + m_Ships[i]->GetShipName());
+					}
+					else
+					{
+						Game::GetInstance().GetSceneManager().GetSceneByName("GameScene")->DisplayMessage("Player Destroyed: " + m_Ships[i]->GetShipName());
+					}
+
 					m_Ships.erase(m_Ships.begin() + i);
 				}
 			}
+
+			if (m_Ships.size() <= 0)
+			{
+				Game::GetInstance().GetSceneManager().PresentScene("GameOverScene");
+			}
+
+			p_Location->SetShipName("");
 		}
 		else
 		{
 			p_Location->SetSymbol("*");
 			p_Location->SetOccupied(true);
-			Game::GetInstance().GetSceneManager().GetSceneByName("GameScene")->DisplayMessage("Missed!");
 		}
 
+		Game::GetInstance().GetSceneManager().RefreshCurrentScene();
 		Game::GetInstance().GetTurnManager().NextTurn();
 	}
 }

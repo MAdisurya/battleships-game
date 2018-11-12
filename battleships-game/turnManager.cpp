@@ -29,6 +29,11 @@ void TurnManager::NextTurn()
 	}
 }
 
+void TurnManager::ResetTurns()
+{
+	m_CurrentTurn = 0;
+}
+
 TurnOrders TurnManager::GetCurrentTurnOrder() const
 {
 	return m_CurrentTurnOrder;

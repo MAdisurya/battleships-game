@@ -1,5 +1,7 @@
 // Local Includes
 #include "ship.h"
+#include "game.h"
+#include "scene.h"
 
 Ship::Ship(std::string _ShipName, std::string _ShipSymbol, int _ShipSize)
 {
